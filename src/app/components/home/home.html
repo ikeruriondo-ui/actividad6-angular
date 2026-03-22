@@ -12,7 +12,28 @@
           </h5>
           <p class="card-text">{{ user.email }}</p>
         </div>
+
+        <div class="card-footer d-flex justify-content-between">
+          <a class="btn btn-primary btn-sm" [routerLink]="['/user', user.id]">
+            Ver
+          </a>
+
+          <a class="btn btn-warning btn-sm" [routerLink]="['/updateuser', user.id]">
+            Editar
+          </a>
+
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="onDelete(user.id, user.first_name)"
+          >
+            Borrar
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <a class="btn btn-success mt-3" routerLink="/newuser">
+    + Nuevo usuario
+  </a>
 </div>
