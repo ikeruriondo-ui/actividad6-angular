@@ -1,6 +1,18 @@
-<h1>HOME HTML CORRECTO</h1>
-<p>Total usuarios: {{ users.length }}</p>
+<div class="container">
+  <h1 class="mb-4">Listado de usuarios</h1>
 
-<div *ngFor="let user of users">
-  {{ user.first_name }} {{ user.last_name }}
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let user of users">
+      <div class="card h-100 shadow-sm">
+        <img [src]="user.image" class="card-img-top" [alt]="user.first_name">
+
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ user.first_name }} {{ user.last_name }}
+          </h5>
+          <p class="card-text">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -14,7 +14,7 @@ export class UsersService {
     return this.http.get<any>(this.baseUrl);
   }
 
-  getUserById(id: string): Observable<any> {
+  getUserById(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
@@ -22,11 +22,11 @@ export class UsersService {
     return this.http.post<any>(this.baseUrl, user);
   }
 
-  updateUser(id: string, user: User): Observable<any> {
+  updateUser(id: number, user: User): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${id}`, user);
   }
 
   deleteUser(id: number): Observable<any> {
-  return this.http.delete<any>(`${this.baseUrl}/${id}`);
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }
 }

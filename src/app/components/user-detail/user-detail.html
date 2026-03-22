@@ -1,1 +1,23 @@
-<p>user-detail works!</p>
+<div class="container" *ngIf="user">
+  <div class="card shadow-sm">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [src]="user.image" class="img-fluid rounded-start w-100 h-100 object-fit-cover" [alt]="user.first_name">
+      </div>
+
+      <div class="col-md-8">
+        <div class="card-body">
+          <h2 class="card-title">{{ user.first_name }} {{ user.last_name }}</h2>
+          <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
+          <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+
+          <div class="d-flex gap-2 mt-4">
+            <a class="btn btn-secondary" routerLink="/home">Volver al listado</a>
+            <a class="btn btn-warning" [routerLink]="['/updateuser', user.id]">Actualizar</a>
+            <button class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
