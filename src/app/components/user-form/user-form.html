@@ -1,1 +1,56 @@
-<p>user-form works!</p>
+<div class="container">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="mb-4">
+        {{ isEditMode ? 'Actualizar usuario' : 'Nuevo usuario' }}
+      </h2>
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-control" formControlName="first_name">
+          <div class="text-danger mt-1" *ngIf="userForm.get('first_name')?.touched && userForm.get('first_name')?.invalid">
+            El nombre es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Apellidos</label>
+          <input type="text" class="form-control" formControlName="last_name">
+          <div class="text-danger mt-1" *ngIf="userForm.get('last_name')?.touched && userForm.get('last_name')?.invalid">
+            Los apellidos son obligatorios
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" formControlName="email">
+          <div class="text-danger mt-1" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']">
+            El email es obligatorio
+          </div>
+          <div class="text-danger mt-1" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['email']">
+            El email no es válido
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Imagen (URL)</label>
+          <input type="text" class="form-control" formControlName="image">
+          <div class="text-danger mt-1" *ngIf="userForm.get('image')?.touched && userForm.get('image')?.invalid">
+            La imagen es obligatoria
+          </div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">
+            {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+          </button>
+
+          <button type="button" class="btn btn-secondary" routerLink="/home">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
