@@ -30,21 +30,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onDelete(id: number, name: string): void {
-    const ok = confirm(`¿Seguro que quieres eliminar a ${name}?`);
+  onDelete(id: string, name: string): void {
+  const ok = confirm(`¿Seguro que quieres eliminar a ${name}?`);
+  if (!ok) return;
 
-    if (!ok) return;
-
-    this.usersService.deleteUser(id).subscribe({
-      next: () => {
-        this.users = this.users.filter(user => user.id !== id);
-        this.cdr.detectChanges();
-        alert('Usuario eliminado correctamente');
-      },
-      error: (error: any) => {
-        console.error('Error al eliminar usuario', error);
-        alert('No se pudo eliminar el usuario');
-      }
-    });
-  }
+  this.usersService.deleteUser(id).subscribe({
+    next: () => {
+      this.users = this.users.filter(user => user._id !== id);
+      this.cdr.detectChanges();
+      alert('Usuario eliminado correctamente');
+    },
+    error: (error: any) => {
+      console.error('Error al eliminar usuario', error);
+      alert('No se pudo eliminar el usuario');
+    }
+  });
+}
 }

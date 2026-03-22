@@ -18,16 +18,20 @@
             Ver
           </a>
 
-          <a class="btn btn-warning btn-sm" [routerLink]="['/updateuser', user.id]">
-            Editar
-          </a>
+          <a class="btn btn-primary btn-sm" [routerLink]="['/user', user._id]">
+            Ver
+            </a>
 
-          <button
+            <a class="btn btn-warning btn-sm" [routerLink]="['/updateuser', user._id]">
+            Editar
+            </a>
+
+            <button
             class="btn btn-danger btn-sm"
-            (click)="onDelete(user.id, user.first_name)"
-          >
+            (click)="onDelete(user._id, user.first_name)"
+            >
             Borrar
-          </button>
+            </button>
         </div>
       </div>
     </div>

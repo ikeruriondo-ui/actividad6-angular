@@ -13,7 +13,7 @@ import { UsersService } from '../../services/users';
   styleUrl: './user-detail.css'
 })
 export class UserDetailComponent implements OnInit {
-  user!: User;
+  user: any = null;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -21,37 +21,37 @@ export class UserDetailComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const id = Number(params['id']);
+  this.route.params.subscribe(params => {
+    const id = params['id'];
 
-      this.usersService.getUserById(id).subscribe({
-        next: (response: any) => {
-          this.user = response;
-          this.cdr.detectChanges();
-        },
-        error: (error: any) => {
-          console.error('Error al cargar el usuario', error);
-        }
-      });
+    this.usersService.getUserById(id).subscribe({
+      next: (response: any) => {
+        this.user = response.result ?? response.results ?? response.data ?? response;
+        this.cdr.detectChanges();
+      },
+      error: (error: any) => {
+        console.error('Error al cargar el usuario', error);
+        alert('No se pudo cargar el usuario');
+      }
     });
-  }
+  });
+}
 
   onDelete(): void {
     if (!this.user?.id) return;
 
     const ok = confirm(`¿Seguro que quieres eliminar a ${this.user.first_name}?`);
+    if (!ok) return;
 
-    if (ok) {
-      this.usersService.deleteUser(this.user.id).subscribe({
-        next: () => {
-          alert('Usuario eliminado correctamente');
-          this.router.navigate(['/home']);
-        },
-        error: (error: any) => {
-          console.error('Error al eliminar usuario', error);
-          alert('No se pudo eliminar el usuario');
-        }
-      });
-    }
+    this.usersService.deleteUser(this.user.id).subscribe({
+      next: () => {
+        alert('Usuario eliminado correctamente');
+        this.router.navigate(['/home']);
+      },
+      error: (error: any) => {
+        console.error('Error al eliminar usuario', error);
+        alert('No se pudo eliminar el usuario');
+      }
+    });
   }
 }
