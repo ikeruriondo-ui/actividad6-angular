@@ -1,1 +1,41 @@
-<p>home works!</p>
+<div class="container">
+  <h1 class="mb-4">Listado de usuarios</h1>
+
+  <div class="row">
+    @for (user of users; track user.id) {
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img
+            [src]="user.image"
+            class="card-img-top"
+            [alt]="user.first_name"
+          >
+
+          <div class="card-body">
+            <h5 class="card-title">
+              {{ user.first_name }} {{ user.last_name }}
+            </h5>
+            <p class="card-text">{{ user.email }}</p>
+          </div>
+
+          <div class="card-footer d-flex justify-content-between">
+            <a class="btn btn-primary btn-sm" [routerLink]="['/user', user.id]">
+              Ver detalle
+            </a>
+
+            <a class="btn btn-warning btn-sm" [routerLink]="['/updateuser', user.id]">
+              Actualizar
+            </a>
+
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="onDelete(user.id!, user.first_name)"
+            >
+              Borrar
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
