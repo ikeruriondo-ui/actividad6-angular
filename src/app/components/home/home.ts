@@ -1,43 +1,28 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { User } from '../../interfaces/user';
 import { UsersService } from '../../services/users';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit {
   users: User[] = [];
   private usersService = inject(UsersService);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-  this.usersService.getUsers().subscribe({
-    next: (response: any) => {
-  alert(JSON.stringify(response).slice(0, 500));
-  this.users = response.data || [];
-},
-    error: (error: any) => {
-      alert('error al cargar usuarios');
-      console.error(error);
-    }
-  });
-}
-
-  onDelete(id: number, name: string): void {
-    const ok = confirm(`¿Seguro que quieres eliminar a ${name}?`);
-    if (!ok) return;
-
-    this.usersService.deleteUser(id).subscribe({
-      next: () => {
-        this.users = this.users.filter(user => user.id !== id);
+    this.usersService.getUsers().subscribe({
+      next: (response: any) => {
+        this.users = response.results ?? [];
+        this.cdr.detectChanges();
       },
       error: (error: any) => {
-        console.error(error);
+        console.error('Error al cargar usuarios', error);
       }
     });
   }
