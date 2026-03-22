@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getUsers().subscribe({
       next: (response: any) => {
-        this.users = response.results ?? [];
+        this.users = response.data ?? [];
+        console.log('USUARIOS CARGADOS:', this.users);
       },
       error: (error: any) => {
         console.error('Error al cargar usuarios', error);
@@ -26,15 +27,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onDelete(id: number | undefined, name: string): void {
-    if (!id) return;
-
+  onDelete(id: number, name: string): void {
     const ok = confirm(`¿Seguro que quieres eliminar a ${name}?`);
 
     if (ok) {
       this.usersService.deleteUser(id).subscribe({
         next: () => {
-          this.users = this.users.filter(user => user.id );
+          this.users = this.users.filter(user => user.id !== id);
           alert('Usuario eliminado correctamente');
         },
         error: (error: any) => {
