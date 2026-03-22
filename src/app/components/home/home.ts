@@ -16,31 +16,29 @@ export class HomeComponent implements OnInit {
   private usersService = inject(UsersService);
 
   ngOnInit(): void {
-    this.usersService.getUsers().subscribe({
-      next: (response: any) => {
-        this.users = response.data ?? [];
-        console.log('USUARIOS CARGADOS:', this.users);
-      },
-      error: (error: any) => {
-        console.error('Error al cargar usuarios', error);
-      }
-    });
-  }
+  this.usersService.getUsers().subscribe({
+    next: (response: any) => {
+  alert(JSON.stringify(response).slice(0, 500));
+  this.users = response.data || [];
+},
+    error: (error: any) => {
+      alert('error al cargar usuarios');
+      console.error(error);
+    }
+  });
+}
 
   onDelete(id: number, name: string): void {
     const ok = confirm(`¿Seguro que quieres eliminar a ${name}?`);
+    if (!ok) return;
 
-    if (ok) {
-      this.usersService.deleteUser(id).subscribe({
-        next: () => {
-          this.users = this.users.filter(user => user.id !== id);
-          alert('Usuario eliminado correctamente');
-        },
-        error: (error: any) => {
-          console.error('Error al eliminar usuario', error);
-          alert('No se pudo eliminar el usuario');
-        }
-      });
-    }
+    this.usersService.deleteUser(id).subscribe({
+      next: () => {
+        this.users = this.users.filter(user => user.id !== id);
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+    });
   }
 }
